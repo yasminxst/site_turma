@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contagem Regressiva para a Formatura</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+   <h1>Terceirao 2026</h1>
+   <h2>🎓 Faltam...</h2>
+   <div id="countdown"></div>
+   <p>...para a nossa Formatura!</p>
+   <p>Sejam bem-vindos ao site feito para organizaçao do nosso terceirao</p>
+
+   <script>
+    // 🗓️ Define a data da formatura (AAAA, MM-1, DD)
+    const dataFormatura = new Date("2026-12-30T00:00:00");
+
+    function atualizarContagem() {
+      const agora = new Date();
+      const diferenca = dataFormatura - agora;
+
+      // Converter milissegundos para dias
+      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+
+      // Mostrar resultado
+      document.getElementById("countdown").innerHTML = `${dias} dias`;
+
+      // Se a data já passou
+      if (diferenca < 0) {
+        document.getElementById("countdown").innerHTML = "🎉 Já é o dia da Formatura!";
+      }
+    }
+
+    // Atualiza a contagem todos os dias
+    atualizarContagem();
+    setInterval(atualizarContagem, 1000 * 60 * 60); // a cada hora
+  </script>
+  <h2>Mensalidade</h2>
+ <table id="tabelaMensalidades" style="width:100%; border-collapse:collapse; text-align:center;">
+  <thead style="background-color:#0077cc; color:#fff;">
+    <tr>
+      <th>Nome do Aluno</th>
+      <th>Valor Mensal (R$)</th>
+      <th>Meses Pagos</th>
+      <th>Total Pago (R$)</th>
+      <th>Falta Pagar (R$)</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  // 📋 Dados dos alunos
+  const alunos = [
+    { nome: "Ana Lívia", pagos: 0 },        // já pagou 6 meses
+    { nome: "Yasmin Teixeira", pagos: 0 },
+    { nome: "Yasmin Gomes", pagos: 0 },
+    { nome: "Álvaro", pagos: 0 },
+    { nome: "Rhaynner", pagos: 0 },
+    { nome: "Carlos Daniel", pagos: 0 },
+    { nome: "Cadu", pagos: 0 },
+    { nome: "Emilly", pagos: 0 },
+    { nome: "Alberto", pagos: 0 },
+    { nome: "Arthur", pagos: 0 }
+  ];
+
+  const valorMensal = 20;
+  const totalMeses = 10;
+  const tabela = document.querySelector("#tabelaMensalidades tbody");
+
+  alunos.forEach(a => {
+    const totalPago = a.pagos * valorMensal;
+    const totalDevido = totalMeses * valorMensal;
+    const falta = totalDevido - totalPago;
+    const status = falta === 0 ? "Quitado" : (a.pagos > 0 ? "Em aberto" : "Atrasado");
+    const cor = falta === 0 ? "green" : (a.pagos > 0 ? "orange" : "red");
+
+    const linha = `
+      <tr>
+        <td>${a.nome}</td>
+        <td>R$ ${valorMensal}</td>
+        <td>${a.pagos} / ${totalMeses}</td>
+        <td>R$ ${totalPago}</td>
+        <td>R$ ${falta}</td>
+        <td style="color:${cor}; font-weight:bold;">${status}</td>
+      </tr>
+    `;
+    tabela.innerHTML += linha;
+  });
+
+  // 💵 Cálculo dos totais gerais
+  const totalPagoGeral = alunos.reduce((s, a) => s + (a.pagos * valorMensal), 0);
+  const totalEsperadoGeral = alunos.length * valorMensal * totalMeses;
+
+  tabela.insertAdjacentHTML("beforeend", `
+    <tr style="font-weight:bold; background:#eef;">
+      <td>Total Geral</td>
+      <td>R$ ${valorMensal}</td>
+      <td>-</td>
+      <td>R$ ${totalPagoGeral}</td>
+      <td>R$ ${totalEsperadoGeral - totalPagoGeral}</td>
+      <td>-</td>
+    </tr>
+  `);
+</script>
+<button><a href="trotes.html">Trotes</a></button>
+<button><a href="excursoes.html">Excursoes</a></button>
+<button><a href="personalizados.html">Personalizados</a></button>
+<button><a href="planejamento.html">Eventos Financeiros</a></button>
+
+<p>&copy; Yasmin Teixeira & Ana Lívia <br>
+Jaguaraçu-MG <br>
+EEPSAS-Desenvolimento de Sistemas</p>
+
+
+
+
+
+
+
+</body>
+</html>
